@@ -1,4 +1,4 @@
-name: Format
+name: Release
 
 on:
   push:
