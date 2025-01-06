@@ -1,7 +1,6 @@
 import type { Plugin } from "vite";
 
 export type ApplicationLanguageType = "Text" | "Integer" | "Boolean";
-export type ApplicationLanguageReturnType = ApplicationLanguageType | "void";
 
 export interface ApplicationLanguageArgument {
 	name: string;
@@ -12,7 +11,6 @@ export interface ApplicationLanguageMethod {
 	type: "procedure" | "event";
 	name: string;
 	arguments: ApplicationLanguageArgument[];
-	returnType: ApplicationLanguageReturnType;
 }
 
 export interface ControlAddInOptions {
@@ -26,12 +24,11 @@ export default function (options: ControlAddInOptions): Plugin {
 	const methods = options.methods ?? [];
 	const meta = options.meta ?? [];
 
-	const pluginName = "control-add-in";
-	const virtualModuleId = `virtual:${pluginName}`;
+	const virtualModuleId = "virtual:control-add-in";
 	const resolvedVirtualModuleId = `\\0${virtualModuleId}`;
 
 	return {
-		name: pluginName,
+		name: "control-add-in",
 		config(config) {
 			return {
 				...config,
@@ -56,13 +53,32 @@ export default function (options: ControlAddInOptions): Plugin {
 				return;
 			}
 			// TODO: Create `on` and `invoke` methods to talk to the control add-in in a type safe way (Using the `options.methods` to create a type safe API).
-			return `export const controlAddIn = {
-                on(event: string, callback: () => void) {
-                      
-                },
-                invoke(procedure: string, args: any[]) {
-                
-                },
+			return /** javascript */ `
+				class ControlAddInService {
+					#eventCallbacks = new Map();
+					
+					on(event, callback) {
+						const callbacks = this.eventCallbacks.get(event) ?? [];
+						callbacks.push(callback);
+						this.#eventCallbacks.set(event, callback);
+						if (Object.hasOwn(globalThis, event)) {
+							return;
+						}
+						Object.assign(globalThis, {
+							[event]: (...args) => {
+								for (const callback of callbacks) {
+									callback(...args);
+								}
+							}
+						});
+					}
+					
+					invoke(procedure, ...args) {
+						Microsoft.Dynamics.NAV.InvokeExtensibilityMethod(procedure, args, false);
+					}
+				}
+				
+				export const controlAddInService = new ControlAddInService();
             }`;
 		},
 		generateBundle() {
@@ -82,7 +98,7 @@ export default function (options: ControlAddInOptions): Plugin {
 								return `${argument.name}: ${argument.type}`;
 							})
 							.join(";");
-						return `\t${method.type}  ${method.name}(${args}): ${method.returnType};`;
+						return `\t${method.type} ${method.name}(${args});`;
 					}),
 					...meta.map((meta) => `\t${meta}`),
 					"}",
