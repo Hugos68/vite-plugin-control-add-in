@@ -1,5 +1,11 @@
 # vite-plugin-control-add-in
 
+## 0.0.2
+
+### Patch Changes
+
+- c05aa3b: Added virtual module types.
+
 ## 0.0.1
 
 ### Patch Changes
