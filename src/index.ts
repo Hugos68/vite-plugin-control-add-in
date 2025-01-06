@@ -23,18 +23,15 @@ export default function (options: ControlAddInOptions): Plugin {
 	const name = options.name;
 	const methods = options.methods ?? [];
 	const meta = options.meta ?? [];
-
-	const virtualModuleId = "virtual:control-add-in";
-	const resolvedVirtualModuleId = `\\0${virtualModuleId}`;
-
 	return {
 		name: "control-add-in",
 		config(config) {
 			return {
 				...config,
 				build: {
-					...config.build,
+					...config?.build,
 					lib: {
+						...config?.build?.lib,
 						entry: "src/index.ts",
 						fileName: "index",
 						formats: ["es"],
@@ -43,22 +40,22 @@ export default function (options: ControlAddInOptions): Plugin {
 			};
 		},
 		resolveId(id) {
-			if (id !== virtualModuleId) {
+			if (id !== "virtual:control-add-in") {
 				return;
 			}
-			return resolvedVirtualModuleId;
+			return "\\0virtual:control-add-in";
 		},
 		load(id) {
-			if (id !== resolvedVirtualModuleId) {
+			if (id !== "\\0virtual:control-add-in") {
 				return;
 			}
 			return /** javascript */ `
 				class ControlAddInService {
-					#eventCallbacks = new Map();
+					#eventCallbacks = new Set();
 					
 					on(event, callback) {
 						const callbacks = this.eventCallbacks.get(event) ?? [];
-						callbacks.push(callback);
+						callbacks.add(callback);
 						this.#eventCallbacks.set(event, callback);
 						if (Object.hasOwn(globalThis, event)) {
 							return;
