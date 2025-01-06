@@ -18,7 +18,7 @@ export default function (options: ControlAddInOptions): Plugin {
 				build: {
 					lib: {
 						entry: "src/index.ts",
-						fileName: `assets/${name},`,
+						fileName: `assets/${name}`,
 						formats: ["es"],
 					},
 				},
