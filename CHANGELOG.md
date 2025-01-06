@@ -1,5 +1,11 @@
 # vite-plugin-control-add-in
 
+## 0.0.4
+
+### Patch Changes
+
+- 61ef561: Fixed broken asset file name.
+
 ## 0.0.3
 
 ### Patch Changes
