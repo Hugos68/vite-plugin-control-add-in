@@ -19,8 +19,8 @@ export interface ControlAddInOptions {
 	meta?: string[];
 }
 
-const VIRTUAL_MODULE_ID = 'virtual:my-module'
-const RESOLVED_VIRTUAL_MODULE_ID = `\0${VIRTUAL_MODULE_ID}`
+const VIRTUAL_MODULE_ID = "virtual:my-module";
+const RESOLVED_VIRTUAL_MODULE_ID = `\0${VIRTUAL_MODULE_ID}`;
 
 export default function (options: ControlAddInOptions): Plugin {
 	const name = options.name;
@@ -52,23 +52,35 @@ export default function (options: ControlAddInOptions): Plugin {
 			return `
 				class ControlAddInService {
 					#eventCallbacks = new Set();
-					
 					on(event, callback) {
-						const callbacks = this.eventCallbacks.get(event) ?? [];
+						const callbacks = this.#eventCallbacks.get(event) ?? new Set();
 						callbacks.add(callback);
-						this.#eventCallbacks.set(event, callback);
-						if (Object.hasOwn(globalThis, event)) {
-							return;
+						this.#eventCallbacks.set(event, callbacks);
+						if (!Object.hasOwn(globalThis, event)) {
+							Object.assign(globalThis, {
+								[event]: (...args) => {
+									const eventCallbacks = this.#eventCallbacks.get(event);
+									if (eventCallbacks) {
+										for (const cb of eventCallbacks) {
+											cb(...args);
+										}
+									}
+								}
+							});
 						}
-						Object.assign(globalThis, {
-							[event]: (...args) => {
-								for (const callback of callbacks) {
-									callback(...args);
+						return () => {
+							const eventCallbacks = this.#eventCallbacks.get(event);
+							if (eventCallbacks) {
+								eventCallbacks.delete(callback);
+								if (eventCallbacks.size === 0) {
+									this.#eventCallbacks.delete(event);
+									if (Object.hasOwn(globalThis, event)) {
+										delete globalThis[event];
+									}
 								}
 							}
-						});
+						};
 					}
-					
 					invoke(procedure, ...args) {
 						Microsoft.Dynamics.NAV.InvokeExtensibilityMethod(procedure, args, false);
 					}

@@ -10,9 +10,8 @@ export default defineBuildConfig({
 		emitCJS: true,
 	},
 	hooks: {
-		"build:done"() {
-			cpSync("src/virtual.d.ts", "dist/virtual.d.ts");
+		"build:done"(config) {
+			cpSync("src/types.d.ts", `${config.options.outDir}/types.d.ts`);
 		},
 	},
-	externals: ["vite"],
 });
