@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-control-add-in",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "Vite plugin to write Microsoft Control Add-in's.",
 	"author": {
 		"name": "Hugo Korte",
