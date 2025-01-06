@@ -52,7 +52,6 @@ export default function (options: ControlAddInOptions): Plugin {
 			if (id !== resolvedVirtualModuleId) {
 				return;
 			}
-			// TODO: Create `on` and `invoke` methods to talk to the control add-in in a type safe way (Using the `options.methods` to create a type safe API).
 			return /** javascript */ `
 				class ControlAddInService {
 					#eventCallbacks = new Map();
