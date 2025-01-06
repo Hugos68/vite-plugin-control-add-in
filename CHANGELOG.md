@@ -1,5 +1,12 @@
 # vite-plugin-control-add-in
 
+## 0.0.3
+
+### Patch Changes
+
+- d91a801: Removes `methods` in favor of defining `lines`.
+- d91a801: Fixed whitespace issue in controladdin arguments output.
+
 ## 0.0.2
 
 ### Patch Changes
