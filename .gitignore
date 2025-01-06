@@ -1,0 +1,9 @@
+# IDE's
+.idea
+.vscode
+
+# Dependencies
+node_modules
+
+# Output
+dist
