@@ -19,37 +19,37 @@ export interface ControlAddInOptions {
 	meta?: string[];
 }
 
+const VIRTUAL_MODULE_ID = 'virtual:my-module'
+const RESOLVED_VIRTUAL_MODULE_ID = `\0${VIRTUAL_MODULE_ID}`
+
 export default function (options: ControlAddInOptions): Plugin {
 	const name = options.name;
 	const methods = options.methods ?? [];
 	const meta = options.meta ?? [];
 	return {
 		name: "control-add-in",
-		config(config) {
+		config() {
 			return {
-				...config,
 				build: {
-					...config?.build,
 					lib: {
-						...config?.build?.lib,
 						entry: "src/index.ts",
-						fileName: "index",
+						fileName: name,
 						formats: ["es"],
 					},
 				},
 			};
 		},
 		resolveId(id) {
-			if (id !== "virtual:control-add-in") {
+			if (id !== VIRTUAL_MODULE_ID) {
 				return;
 			}
-			return "\\0virtual:control-add-in";
+			return RESOLVED_VIRTUAL_MODULE_ID;
 		},
 		load(id) {
-			if (id !== "\\0virtual:control-add-in") {
+			if (id !== RESOLVED_VIRTUAL_MODULE_ID) {
 				return;
 			}
-			return /** javascript */ `
+			return `
 				class ControlAddInService {
 					#eventCallbacks = new Set();
 					
@@ -86,8 +86,8 @@ export default function (options: ControlAddInOptions): Plugin {
 					"{",
 					"\tHorizontalStretch = true;",
 					"\tVerticalStretch = true;",
-					"\tScripts = './index.js';",
-					"\tStyleSheets = './index.css';",
+					`\tScripts = './${name}.js';`,
+					`\tStyleSheets = './${name}.css';`,
 					...methods.map((method) => {
 						const args = method.arguments
 							.map((argument) => {
