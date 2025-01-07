@@ -5,7 +5,6 @@
 ### Patch Changes
 
 - 4450dab: Revert attempt of fixing types.
-- Package now emits virtual.d.ts file which can be included through vite-plugin-control-add-in/virtual
 - 81f37a8: Testing an alternative declaration file method.
 
 ## 0.0.5
