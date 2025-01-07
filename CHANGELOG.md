@@ -1,5 +1,11 @@
 # vite-plugin-control-add-in
 
+## 0.0.7
+
+### Patch Changes
+
+- 32a8dac: Package now emits virtual.d.ts file which can be included through vite-plugin-control-add-in/virtual
+
 ## 0.0.6
 
 ### Patch Changes
