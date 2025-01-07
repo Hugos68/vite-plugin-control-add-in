@@ -1,5 +1,11 @@
 # vite-plugin-control-add-in
 
+## 0.0.8
+
+### Patch Changes
+
+- fc84c71: Args are now typed as `any` so no errors when casting them to strings or numbers.
+
 ## 0.0.7
 
 ### Patch Changes
