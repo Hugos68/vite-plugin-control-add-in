@@ -13,26 +13,18 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"keywords": [
-		"vite",
-		"vite-plugin",
-		"microsoft",
-		"control-add-in"
-	],
+	"keywords": ["vite", "vite-plugin", "microsoft", "control-add-in"],
 	"scripts": {
 		"build": "unbuild",
 		"format": "biome check --write",
 		"format:check": "biome check",
 		"prepack": "pnpm build"
 	},
-	"files": [
-		"index.d.ts",
-		"dist"
-	],
+	"files": ["dist"],
 	"sideEffects": false,
 	"module": "./dist/index.mjs",
 	"main": "./dist/index.cjs",
-	"types": "./index.d.ts",
+	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"import": {
