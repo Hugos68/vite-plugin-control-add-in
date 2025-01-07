@@ -1,5 +1,11 @@
 # vite-plugin-control-add-in
 
+## 0.0.6
+
+### Patch Changes
+
+- 81f37a8: Testing an alternative declaration file method.
+
 ## 0.0.5
 
 ### Patch Changes
