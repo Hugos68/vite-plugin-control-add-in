@@ -1,5 +1,11 @@
 # vite-plugin-control-add-in
 
+## 0.0.5
+
+### Patch Changes
+
+- a5432e4: Fixed types for virtual module
+
 ## 0.0.4
 
 ### Patch Changes
