@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-control-add-in",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"description": "Vite plugin to write Microsoft Control Add-in's.",
 	"author": {
 		"name": "Hugo Korte",
@@ -13,14 +13,21 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"keywords": ["vite", "vite-plugin", "microsoft", "control-add-in"],
+	"keywords": [
+		"vite",
+		"vite-plugin",
+		"microsoft",
+		"control-add-in"
+	],
 	"scripts": {
 		"build": "unbuild",
 		"format": "biome check --write",
 		"format:check": "biome check",
 		"prepack": "pnpm build"
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"sideEffects": false,
 	"module": "./dist/index.mjs",
 	"main": "./dist/index.cjs",
