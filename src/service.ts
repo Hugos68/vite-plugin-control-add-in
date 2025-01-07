@@ -1,12 +1,15 @@
 class ControlAddInService {
-	#eventCallbacks = new Map<string, Set<(...args: unknown[]) => void>>();
-	on(event: string, callback: (...args: unknown[]) => void) {
+	// biome-ignore lint/suspicious/noExplicitAny:
+	#eventCallbacks = new Map<string, Set<(...args: any[]) => void>>();
+	// biome-ignore lint/suspicious/noExplicitAny:
+	on(event: string, callback: (...args: any[]) => void) {
 		const callbacks = this.#eventCallbacks.get(event) ?? new Set();
 		callbacks.add(callback);
 		this.#eventCallbacks.set(event, callbacks);
 		if (!Object.hasOwn(globalThis, event)) {
 			Object.assign(globalThis, {
-				[event]: (...args: unknown[]) => {
+				// biome-ignore lint/suspicious/noExplicitAny:
+				[event]: (...args: any[]) => {
 					const eventCallbacks = this.#eventCallbacks.get(event);
 					if (eventCallbacks) {
 						for (const cb of eventCallbacks) {
@@ -30,7 +33,8 @@ class ControlAddInService {
 			}
 		};
 	}
-	invoke(procedure: string, ...args: unknown[]) {
+	// biome-ignore lint/suspicious/noExplicitAny:
+	invoke(procedure: string, ...args: any[]) {
 		Microsoft.Dynamics.NAV.InvokeExtensibilityMethod(procedure, args, false);
 	}
 }
