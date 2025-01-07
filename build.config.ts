@@ -9,9 +9,9 @@ export default defineBuildConfig({
 	rollup: {
 		emitCJS: true,
 	},
-	hooks: {
-		"build:done"(config) {
-			cpSync("src/types.d.ts", `${config.options.outDir}/types.d.ts`);
-		},
-	},
+	// hooks: {
+	// 	"build:done"(config) {
+	// 		cpSync("src/types.d.ts", `${config.options.outDir}/types.d.ts`);
+	// 	},
+	// },
 });
