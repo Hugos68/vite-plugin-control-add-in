@@ -1,4 +1,3 @@
-import "./types.d.js";
 import type { Plugin } from "vite";
 
 export interface ControlAddInOptions {

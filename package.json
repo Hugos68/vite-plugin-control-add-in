@@ -26,12 +26,13 @@
 		"prepack": "pnpm build"
 	},
 	"files": [
+		"index.d.ts",
 		"dist"
 	],
 	"sideEffects": false,
 	"module": "./dist/index.mjs",
 	"main": "./dist/index.cjs",
-	"types": "./dist/index.d.ts",
+	"types": "./index.d.ts",
 	"exports": {
 		".": {
 			"import": {
